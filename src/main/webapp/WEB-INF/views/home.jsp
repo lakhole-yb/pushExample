@@ -21,12 +21,14 @@
         }); */
         if ('serviceWorker' in navigator) {
         	  window.addEventListener('load', function() {
-        	    navigator.serviceWorker.register('resources/sw.js').then(function(registration) {
-        	      // Registration was successful
-        	      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        	    navigator.serviceWorker.register('./sw.js',{scope:'https://evening-meadow-19282.herokuapp.com/resources'})
+        	    .then(function(registration) {
+        	   		// Registration was successful
+        	      	console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        	    	console.log(registration);		
         	    }, function(err) {
-        	      // registration failed :(
-        	      console.log('ServiceWorker registration failed: ', err);
+        	    	// registration failed :(
+        	      	console.log('ServiceWorker registration failed: ', err);
         	    });
         	  });
         }else{

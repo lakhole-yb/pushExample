@@ -16,7 +16,7 @@
         },1000);
 
         addEventListener('load',async() => {
-            let sw = await navigator.serviceWorker.register('sw.js');
+            let sw = await navigator.serviceWorker.register('resources/sw.js',{scope:'resources/'});
             console.log(sw);
         });
 

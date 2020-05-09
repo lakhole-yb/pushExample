@@ -39,43 +39,5 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/sw.js", method = RequestMethod.GET)
-	public String swPushNotification(Locale locale, Model model,HttpServletResponse res) {
 		
-		res.setHeader("Content-Type","text/javascript");
-		
-		String snippet=""
-				+ "self.addEventListener('push', event => {\n" + 
-				"    let body;\n" + 
-				"  \n" + 
-				"    if (event.data) {\n" + 
-				"      body = event.data.text();\n" + 
-				"    } else {\n" + 
-				"      body = 'Default body';\n" + 
-				"    }\n" + 
-				"  \n" + 
-				"    const options = {\n" + 
-				"      body: body,\n" + 
-				"      icon: 'images/notification-flat.png',\n" + 
-				"      vibrate: [100, 50, 100],\n" + 
-				"      data: {\n" + 
-				"        dateOfArrival: Date.now(),\n" + 
-				"        primaryKey: 1\n" + 
-				"      },\n" + 
-				"      actions: [\n" + 
-				"        {action: 'https://touchbase.live', title: 'Touchbase Live',\n" + 
-				"          icon: 'images/checkmark.png'},\n" + 
-				"        {action: 'close', title: 'Close the notification',\n" + 
-				"          icon: 'images/xmark.png'},\n" + 
-				"      ]\n" + 
-				"    };\n" + 
-				"  \n" + 
-				"    event.waitUntil(\n" + 
-				"      self.registration.showNotification('TouchBase Live', options)\n" + 
-				"    );\n" + 
-				"  });";
-		
-		return snippet;
-	}
-	
 }

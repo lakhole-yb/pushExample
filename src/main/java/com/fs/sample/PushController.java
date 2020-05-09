@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class PushController {
 
-	@RequestMapping(value = "/sw.js", method = RequestMethod.GET)
+	@RequestMapping(value = "/sw.js", method = RequestMethod.GET,produces="application/javascript")
 	@ResponseBody
 	public String swPushNotification(Locale locale, Model model,HttpServletResponse res) {
 		
-		res.setHeader("Content-Type","text/javascript");
 		
 		String snippet=""
 				+ "self.addEventListener('push', event => {\n" + 

@@ -25,7 +25,20 @@
         	    .then(function(registration) {
         	   		// Registration was successful
         	      	console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        	    	console.log(registration);		
+        	    	console.log(registration);
+        	    	
+        	    	navigator.serviceWorker.ready
+                	.then(function(registration){
+                		console.log('Registration state: '+registration.active);
+                		let push = registration.pushManager.subscribe({
+                            userVisibleOnly:true,
+                            applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
+                        });
+                		console.log(JSON.stringify(push,null,2));
+                	},function(err){
+                		console.log('Error in sw ready'+err);
+                	});
+        	    	
         	    }, function(err) {
         	    	// registration failed :(
         	      	console.log('ServiceWorker registration failed: ', err);
@@ -36,20 +49,6 @@
         }
 
         function subscribe(){
-            if('serviceWorker' in navigator){
-            	navigator.serviceWorker.ready
-            	.then(function(registration){
-            		console.log('Registration state: '+registration.active);
-            		let push = registration.pushManager.subscribe({
-                        userVisibleOnly:true,
-                        applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
-                    });
-            		console.log(JSON.stringify(push,null,2));
-            	});
-            }else{
-            	console.log('Service worker not supported.')
-            }            
-            //Store to database
             
         }
 

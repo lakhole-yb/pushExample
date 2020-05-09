@@ -1,5 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <html>
 <head>
 	<title>Home</title>
@@ -53,7 +51,7 @@
             
         } */
         addEventListener('load',async() => {
-            let sw = await navigator.serviceWorker.register('resources/sw.js');
+            let sw = await navigator.serviceWorker.register('/sw.js');
             console.log(sw);
             console.log('Regsiter with Scope: '+sw.scope);
         });

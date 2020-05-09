@@ -39,24 +39,16 @@
             if('serviceWorker' in navigator){
             	navigator.serviceWorker.ready
             	.then(function(registration){
-            		let push = sw.pushManager.subscribe({
+            		console.log('Registration state: '+registration.active);
+            		let push = registration.pushManager.subscribe({
                         userVisibleOnly:true,
                         applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
                     });
+            		console.log(JSON.stringify(push,null,2));
             	});
             }else{
             	console.log('Service worker not supported.')
-            }
-        	
-        	let sw = navigator.serviceWorker.ready;
-            if(sw){
-             	let push = sw.pushManager.subscribe({
-                    userVisibleOnly:true,
-                    applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
-                })	
-                console.log(JSON.stringify(push,null,2));
-            }
-            
+            }            
             //Store to database
             
         }

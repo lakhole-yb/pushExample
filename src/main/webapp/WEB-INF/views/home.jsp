@@ -21,7 +21,7 @@
         }); */
         if ('serviceWorker' in navigator) {
         	  window.addEventListener('load', function() {
-        	    navigator.serviceWorker.register('resources/sw.js',{scope:'https://evening-meadow-19282.herokuapp.com/'})
+        	    navigator.serviceWorker.register('https://evening-meadow-19282.herokuapp.com/resources/sw.js',{scope:'/resources/'})
         	    .then(function(registration) {
         	   		// Registration was successful
         	      	console.log('ServiceWorker registration successful with scope: ', registration.scope);
@@ -36,9 +36,21 @@
         }
 
         function subscribe(){
-            let sw = navigator.serviceWorker.ready;
+            if('serviceWorker' in navigator){
+            	navigator.serviceWorker.ready
+            	.then(function(registration){
+            		let push = sw.pushManager.subscribe({
+                        userVisibleOnly:true,
+                        applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
+                    });
+            	});
+            }else{
+            	console.log('Service worker not supported.')
+            }
+        	
+        	let sw = navigator.serviceWorker.ready;
             if(sw){
-            	let push = sw.pushManager.subscribe({
+             	let push = sw.pushManager.subscribe({
                     userVisibleOnly:true,
                     applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
                 })	

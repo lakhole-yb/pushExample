@@ -1,6 +1,7 @@
 package com.fs.sample;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.Locale;
 
@@ -84,16 +85,32 @@ public class PushController {
 			e.printStackTrace();
 		}
 		
-		
 		return (ResponseEntity<String>) ResponseEntity.ok();
 	}
 	
+	@RequestMapping(value="/getPubKey",method=RequestMethod.GET)
+	public ResponseEntity<String> getPubKey(){
+		
+		PushMessage p = null;
+		try {
+			p = new PushMessage();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ResponseEntity.ok(p.getPublickKey());
+		
+	}
+	
 	public static void main(String[] args) {
-		String json = "{\"field\":\"abc\"}";
+		String json = "{\"endpoint\":\"https://fcm.googleapis.com/fcm/send/ff-haWrvMbc:APA91bFysJjJ9xsNnea6LNnuVDIsCyqbdjg3qWzKxKVmzL04vnLB1_EkV843JRLB3PZYwEloWo24fCkQA7bK0V_RtEP2iTdvDe75jxL6rkmiw5CyOisxL6tc1-0ab9K45wCCBdjU7uym\",\"expirationTime\":null,\"keys\":{\"p256" + 
+				"dh\":\"BDFXpEAro1r7_BWjqS28sDZ9YIfqxlGP1HggqL0jUEYc8uN8Ps6L7Jhku0MsIQ32sM9cLDuopkwZ5sf7eNNEb4I\",\"auth\":\"AsiOmA0LjCps5hF6hm35Sw\"}}";
+		System.out.println(json);
 		Gson g = new GsonBuilder().setLenient().serializeNulls().create();
 		JsonObject j=g.fromJson(json,JsonObject.class);
 		
-		System.out.println(j.get("field").getAsString());
+		System.out.println(j.get("endpoint").getAsString());
 		
 	}
 

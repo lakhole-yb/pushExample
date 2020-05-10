@@ -24,17 +24,30 @@
         });
 
         async function subscribe(){
+        	let pukey='';
+        	$.ajax({
+        		url:'/getPubKey',
+        		method:'GET',
+        		success:function(data){
+        			pukey=data
+        		},
+        		fail:function(xhr){
+        			console.log(xhr);
+        		}
+        	})
+        	
             let sw = await navigator.serviceWorker.ready;
             let push = await sw.pushManager.subscribe({
                 userVisibleOnly:true,
-                applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
-            });
-           
+                applicationServerKey:pukey
+            })
+            console.log(push);
+           	console.log(JSON.stringify(push));
             //Store to database
             $.ajax({
             	url:'/subscribe',
             	method:'POST',
-            	data:JSON.stringify(push),
+            	data:""+push+"",
             	success:function(data){
             		console.log(data);
             	},
@@ -42,7 +55,7 @@
             		console.log(xhr)
             	}
             })
-            console.log(JSON.stringify(push,null,2));
+            
         }
     </script>
 </body>

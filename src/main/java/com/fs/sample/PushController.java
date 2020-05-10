@@ -61,6 +61,7 @@ public class PushController {
 	@RequestMapping(value="/subscribe",method=RequestMethod.POST)
 	public ResponseEntity<String> subscribe(@RequestBody String body) {
 		
+		body = body.replace("null","0");
 		JsonObject payload = (JsonObject) new JsonParser().parse(body);
 		System.out.println("Payload: "+payload);
 		

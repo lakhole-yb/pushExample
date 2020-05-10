@@ -116,7 +116,7 @@ public class PushController {
 		System.out.println(j.get("endpoint").getAsString());
 		ClassLoader loader = ClassLoader.getSystemClassLoader();
 		try {
-			System.out.println(new File(loader.getResource("public.key").getFile()).length());
+			System.out.println(loader.getResource("private.key"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

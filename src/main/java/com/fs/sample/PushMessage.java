@@ -68,8 +68,13 @@ public class PushMessage {
 		}
 		
 		ClassLoader loader = ClassLoader.getSystemClassLoader();
-
-		if(new File(loader.getResource("public.key").getFile()).length() > 0 && new File(loader.getResource("private.key").getFile()).length() > 0){
+		
+		System.out.println(loader.getResource("private.key"));
+		
+		long publicKeyLength = new File(loader.getResource("public.key").getFile()).length();
+		long privateKeylength = new File(loader.getResource("private.key").getFile()).length();
+		
+		if( publicKeyLength > 0 && privateKeylength > 0){
 			try {
 				byte[] pubKeyArray = Files.readAllBytes(Paths.get(loader.getResource("public.key").toURI())); 
 				byte[] priKeyArray = Files.readAllBytes(Paths.get(loader.getResource("private.key").toURI()));

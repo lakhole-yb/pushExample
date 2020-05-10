@@ -1,5 +1,7 @@
 package com.fs.sample;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
@@ -63,6 +65,11 @@ public class PushController {
 	
 	@RequestMapping(value="/subscribe",method=RequestMethod.POST)
 	public ResponseEntity<String> subscribe(@RequestBody String body) {
+		try {
+			body=URLDecoder.decode(body,"UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
 		
 		System.out.println("Request Payload: "+body);
 		Gson g = new GsonBuilder().setLenient().serializeNulls().create();

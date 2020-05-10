@@ -4,11 +4,16 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Controller
 public class PushController {
@@ -43,6 +48,7 @@ public class PushController {
 				"          icon: 'images/xmark.png'},\n" + 
 				"      ]\n" + 
 				"    };\n" + 
+				
 				"  \n" + 
 				"    event.waitUntil(\n" + 
 				"      self.registration.showNotification('TouchBase Live', options)\n" + 
@@ -51,5 +57,17 @@ public class PushController {
 		
 		return snippet;
 	}
+	
+	@RequestMapping(value="/subscribe",method=RequestMethod.POST)
+	public ResponseEntity<String> subscribe(@RequestBody String body) {
+		
+		JsonObject payload = (JsonObject) new JsonParser().parse(body);
+		System.out.println("Payload: "+payload);
+		PushMessage pm=new PushMessage();
+		pm.sendNotification(payload);
+		
+		return (ResponseEntity<String>) ResponseEntity.ok();
+	}
+	
 
 }

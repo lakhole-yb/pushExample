@@ -1,8 +1,11 @@
 package com.fs.sample;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
@@ -111,6 +114,13 @@ public class PushController {
 		JsonObject j=g.fromJson(json,JsonObject.class);
 		
 		System.out.println(j.get("endpoint").getAsString());
+		ClassLoader loader = ClassLoader.getSystemClassLoader();
+		try {
+			System.out.println(new File(loader.getResource("public.key").getFile()).length());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

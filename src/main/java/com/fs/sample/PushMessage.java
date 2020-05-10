@@ -1,5 +1,6 @@
 package com.fs.sample;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -67,11 +68,11 @@ public class PushMessage {
 		}
 		
 		ClassLoader loader = ClassLoader.getSystemClassLoader();
-		
-		if(Files.exists(Paths.get(loader.getResource("key.public").toURI())) && Files.exists(Paths.get(loader.getResource("key.private").toURI()))){
+
+		if(new File(loader.getResource("public.key").getFile()).length() > 0 && new File(loader.getResource("private.key").getFile()).length() > 0){
 			try {
-				byte[] pubKeyArray = Files.readAllBytes(Paths.get(loader.getResource("key.public").toURI())); 
-				byte[] priKeyArray = Files.readAllBytes(Paths.get(loader.getResource("key.private").toURI()));
+				byte[] pubKeyArray = Files.readAllBytes(Paths.get(loader.getResource("public.key").toURI())); 
+				byte[] priKeyArray = Files.readAllBytes(Paths.get(loader.getResource("private.key").toURI()));
 				
 				X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(pubKeyArray);
 				publicKey = (ECPublicKey)keyFactory.generatePublic(pubKeySpec);
@@ -105,8 +106,8 @@ public class PushMessage {
 	        
 	        ClassLoader cl = ClassLoader.getSystemClassLoader();
 	           
-			Files.write(Paths.get(cl.getResource("key.public").toURI()), publicKey.getEncoded());
-			Files.write(Paths.get(cl.getResource("key.private").toURI()), privateKey.getEncoded());
+			Files.write(Paths.get(cl.getResource("public.key").toURI()), publicKey.getEncoded());
+			Files.write(Paths.get(cl.getResource("private.key").toURI()), privateKey.getEncoded());
 			 
 			isCreated = true;
 			

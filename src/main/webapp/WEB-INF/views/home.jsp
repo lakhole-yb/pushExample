@@ -28,12 +28,18 @@
             let push = await sw.pushManager.subscribe({
                 userVisibleOnly:true,
                 applicationServerKey:'BLid-Ld7O47We3JNKcqnIkgJjQ8sgLpf8BX7FBqtn_dE5tfNWY4h-QzbCdpnPHbVimi2t1Jf3Qvysq-6e-hiotQ'
-            })
+            });
+            var payload={};
+            payload['endpoint']=push.endpoint;
+            payload['p256dh']=push.keys.p256dh;
+            payload['auth']=push.keys.auth;
+            
+            conosle.log('Payload:'+JSON.stringify(payload,null,2));
             //Store to database
             $.ajax({
             	url:'/subscribe',
             	method:'POST',
-            	data:JSON.stringify(push),
+            	data:JSON.stringify(payload),
             	success:function(data){
             		console.log(data);
             	},

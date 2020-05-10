@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -55,7 +56,7 @@ public class PushMessage {
 	private ECPublicKey publicKey;
 	private ECPrivateKey privateKey;
 	
-	public PushMessage(){
+	public PushMessage() throws URISyntaxException{
 		
 		try {
 			keyPairGenerator = KeyPairGenerator.getInstance("EC");
@@ -65,11 +66,12 @@ public class PushMessage {
 			e.printStackTrace();
 		}
 		
+		ClassLoader loader = ClassLoader.getSystemClassLoader();
 		
-		if(Files.exists(Paths.get("D://key.public")) && Files.exists(Paths.get("D://key.private"))){
+		if(Files.exists(Paths.get(loader.getResource("key.public").toURI())) && Files.exists(Paths.get(loader.getResource("key.private").toURI()))){
 			try {
-				byte[] pubKeyArray = Files.readAllBytes(Paths.get("D://key.public")); 
-				byte[] priKeyArray = Files.readAllBytes(Paths.get("D://key.private"));
+				byte[] pubKeyArray = Files.readAllBytes(Paths.get(loader.getResource("key.public").toURI())); 
+				byte[] priKeyArray = Files.readAllBytes(Paths.get(loader.getResource("key.private").toURI()));
 				
 				X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(pubKeyArray);
 				publicKey = (ECPublicKey)keyFactory.generatePublic(pubKeySpec);
@@ -103,8 +105,8 @@ public class PushMessage {
 	        
 	        ClassLoader cl = ClassLoader.getSystemClassLoader();
 	           
-			Files.write(Paths.get("D://key.public"), publicKey.getEncoded());
-			Files.write(Paths.get("D://key.private"), privateKey.getEncoded());
+			Files.write(Paths.get(cl.getResource("key.public").toURI()), publicKey.getEncoded());
+			Files.write(Paths.get(cl.getResource("key.private").toURI()), privateKey.getEncoded());
 			 
 			isCreated = true;
 			

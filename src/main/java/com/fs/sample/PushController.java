@@ -63,8 +63,14 @@ public class PushController {
 		
 		JsonObject payload = (JsonObject) new JsonParser().parse(body);
 		System.out.println("Payload: "+payload);
-		PushMessage pm=new PushMessage();
-		pm.sendNotification(payload);
+		
+		try{
+			PushMessage pm=new PushMessage();
+			pm.sendNotification(payload);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		return (ResponseEntity<String>) ResponseEntity.ok();
 	}

@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 @Controller
 public class PushController {
@@ -61,8 +64,10 @@ public class PushController {
 	@RequestMapping(value="/subscribe",method=RequestMethod.POST)
 	public ResponseEntity<String> subscribe(@RequestBody String body) {
 		
-		body = body.replace("null","0");
-		JsonObject payload = (JsonObject) new JsonParser().parse(body);
+		System.out.println("Request Payload: "+body);
+		Gson g = new GsonBuilder().setLenient().serializeNulls().create();
+		JsonObject payload=g.fromJson(body,JsonObject.class);
+		
 		System.out.println("Payload: "+payload);
 		
 		try{
@@ -76,5 +81,13 @@ public class PushController {
 		return (ResponseEntity<String>) ResponseEntity.ok();
 	}
 	
+	public static void main(String[] args) {
+		String json = "{\"field\":\"abc\"}";
+		Gson g = new GsonBuilder().setLenient().serializeNulls().create();
+		JsonObject j=g.fromJson(json,JsonObject.class);
+		
+		System.out.println(j.get("field").getAsString());
+		
+	}
 
 }

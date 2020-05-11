@@ -47,7 +47,7 @@
             $.ajax({
             	url:'/subscribe',
             	method:'POST',
-            	data:""+push+"",
+            	data:JSON.stringify(push),
             	success:function(data){
             		console.log(data);
             	},

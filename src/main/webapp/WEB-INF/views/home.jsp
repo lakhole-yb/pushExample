@@ -23,7 +23,7 @@
             console.log('Regsiter with Scope: '+sw.scope);
         });
 
-        async function subscribe(){
+        function subscribe(){
         	let pukey='';
         	$.ajax({
         		url:'/getPubKey',
@@ -31,7 +31,7 @@
         		success:function(data){
         			pukey=data
         			let sw = await navigator.serviceWorker.ready;
-                    let push = await sw.pushManager.subscribe({
+                    let push = sw.pushManager.subscribe({
                         userVisibleOnly:true,
                         applicationServerKey:pukey
                     })

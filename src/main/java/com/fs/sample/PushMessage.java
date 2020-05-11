@@ -1,6 +1,7 @@
 package com.fs.sample;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -43,6 +44,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.auth0.jwt.JWT;
@@ -67,17 +69,20 @@ public class PushMessage {
 			e.printStackTrace();
 		}
 		
-		ClassLoader loader = ClassLoader.getSystemClassLoader();
 		
-		System.out.println(loader.getResource("private.key"));
-		
-		long publicKeyLength = new File(loader.getResource("public.key").getFile()).length();
-		long privateKeylength = new File(loader.getResource("private.key").getFile()).length();
+		long publicKeyLength = 0;
+		long privateKeylength = 0;
+		try {
+			publicKeyLength = ResourceUtils.getFile("classpath:public.key").length();
+			privateKeylength = ResourceUtils.getFile("classpath:private.key").length();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		
 		if( publicKeyLength > 0 && privateKeylength > 0){
 			try {
-				byte[] pubKeyArray = Files.readAllBytes(Paths.get(loader.getResource("public.key").toURI())); 
-				byte[] priKeyArray = Files.readAllBytes(Paths.get(loader.getResource("private.key").toURI()));
+				byte[] pubKeyArray = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:public.key").toURI())); 
+				byte[] priKeyArray = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:private.key").toURI()));
 				
 				X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(pubKeyArray);
 				publicKey = (ECPublicKey)keyFactory.generatePublic(pubKeySpec);
@@ -109,10 +114,8 @@ public class PushMessage {
 	        System.out.println("PublicKey: "+publicKey);
 	        System.out.println("PrivateKey: "+privateKey);
 	        
-	        ClassLoader cl = ClassLoader.getSystemClassLoader();
-	           
-			Files.write(Paths.get(cl.getResource("public.key").toURI()), publicKey.getEncoded());
-			Files.write(Paths.get(cl.getResource("private.key").toURI()), privateKey.getEncoded());
+			Files.write(Paths.get(ResourceUtils.getFile("classpath:public.key").toURI()), publicKey.getEncoded());
+			Files.write(Paths.get(ResourceUtils.getFile("classpath:private.key").toURI()), privateKey.getEncoded());
 			 
 			isCreated = true;
 			

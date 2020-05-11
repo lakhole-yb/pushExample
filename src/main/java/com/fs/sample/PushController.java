@@ -1,6 +1,8 @@
 package com.fs.sample;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -10,9 +12,12 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -114,13 +119,19 @@ public class PushController {
 		JsonObject j=g.fromJson(json,JsonObject.class);
 		
 		System.out.println(j.get("endpoint").getAsString());
-		ClassLoader loader = ClassLoader.getSystemClassLoader();
+
 		try {
-			System.out.println(loader.getResource("private.key"));
+			
+			long publicKeyLength = ResourceUtils.getFile("classpath:public.key").length();
+			long privateKeylength =ResourceUtils.getFile("classpath:private.key").length();
+			
+			System.out.println(publicKeyLength);
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
 	}
 

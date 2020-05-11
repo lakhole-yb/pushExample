@@ -177,6 +177,8 @@ public class PushMessage {
 		
 		String auth="vapid t="+token+", k="+getPublickKey();
 		
+		
+		
 		URL u;
 		HttpURLConnection conn=null;
 		
@@ -186,7 +188,7 @@ public class PushMessage {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Authorization",auth);
 			conn.setRequestProperty("TTL","180");
-			
+			conn.setRequestProperty("Content-Length","0");
 			int statusCode=conn.getResponseCode();
 			System.out.println(statusCode);
 			

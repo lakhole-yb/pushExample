@@ -96,7 +96,7 @@ public class PushController {
 			e.printStackTrace();
 		}
 		
-		return (ResponseEntity<String>) ResponseEntity.ok();
+		return ResponseEntity.status(200).body("OK");
 	}
 	
 	@RequestMapping(value="/getPubKey",method=RequestMethod.GET)

@@ -80,7 +80,10 @@ public class PushController {
 			e1.printStackTrace();
 		}
 		
+		body=body.substring(0,body.length()-1);
 		System.out.println("Request Payload: "+body);
+		
+		
 		Gson g = new GsonBuilder().setLenient().serializeNulls().create();
 		JsonObject payload=g.fromJson(body,JsonObject.class);
 		

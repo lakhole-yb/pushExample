@@ -75,8 +75,8 @@ public class PushController {
 	@RequestMapping(value="/subscribe",method=RequestMethod.POST)
 	public ResponseEntity<String> subscribe(@RequestBody String body) {
 		try {
-			body=URLDecoder.decode(body,"UTF-8");
-		} catch (UnsupportedEncodingException e1) {
+			body=URLDecoder.decode(body);
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		

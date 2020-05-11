@@ -30,32 +30,30 @@
         		method:'GET',
         		success:function(data){
         			pukey=data
+        			let sw = await navigator.serviceWorker.ready;
+                    let push = await sw.pushManager.subscribe({
+                        userVisibleOnly:true,
+                        applicationServerKey:pukey
+                    })
+                    console.log(push);
+                   	console.log(JSON.stringify(push));
+                    //Store to database
+                    $.ajax({
+                    	url:'/subscribe',
+                    	method:'POST',
+                    	data:JSON.stringify(push),
+                    	success:function(data){
+                    		console.log(data);
+                    	},
+                    	fail:function(xhr){
+                    		console.log(xhr)
+                    	}
+                    })
         		},
         		fail:function(xhr){
         			console.log(xhr);
         		}
         	})
-        	
-            let sw = await navigator.serviceWorker.ready;
-            let push = await sw.pushManager.subscribe({
-                userVisibleOnly:true,
-                applicationServerKey:pukey
-            })
-            console.log(push);
-           	console.log(JSON.stringify(push));
-            //Store to database
-            $.ajax({
-            	url:'/subscribe',
-            	method:'POST',
-            	data:JSON.stringify(push),
-            	success:function(data){
-            		console.log(data);
-            	},
-            	fail:function(xhr){
-            		console.log(xhr)
-            	}
-            })
-            
         }
     </script>
 </body>

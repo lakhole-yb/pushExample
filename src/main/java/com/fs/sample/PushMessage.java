@@ -173,15 +173,18 @@ public class PushMessage {
 
 		String endpointURI = payload.get("endpoint").getAsString();
 		
-		 
+		System.out.println("Endpoint: "+endpointURI+"\n\nPublic Key: "+getPublickKey()); 
+		
+		String auth="vapid t="+token+", k="+getPublickKey();
 		
 		URL u;
 		HttpURLConnection conn=null;
+		
 		try {
 			u = new URL(endpointURI);
 			conn = (HttpURLConnection) u.openConnection();
 			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Authorization","vapid t="+token+", k="+getPublickKey());
+			conn.setRequestProperty("Authorization",auth);
 			conn.setRequestProperty("TTL","180");
 			
 			int statusCode=conn.getResponseCode();

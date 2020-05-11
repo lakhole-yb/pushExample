@@ -3,6 +3,7 @@ package com.fs.sample;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -189,6 +190,12 @@ public class PushMessage {
 			conn.setRequestProperty("Authorization",auth);
 			conn.setRequestProperty("TTL","180");
 			conn.setRequestProperty("Content-Length","0");
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+			writer.write("");
+			writer.close();
+			
 			int statusCode=conn.getResponseCode();
 			System.out.println(statusCode);
 			
